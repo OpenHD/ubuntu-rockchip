@@ -22,6 +22,7 @@ if [[ -z ${VENDOR} ]]; then
 fi
 
 if [[ ${LAUNCHPAD} != "Y" ]]; then
+    ls -a
     for file in linux-{headers,image}-5.10.160-rockchip_*.deb; do
         if [ ! -e "$file" ]; then
             echo "Error: missing kernel debs, please run build-kernel.sh"
