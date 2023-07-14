@@ -22,7 +22,7 @@
 chpasswd:
   expire: true
   list:
-  - ubuntu:ubuntu
+  - openhd:openhd
 
 ## Set the system's hostname. Please note that, unless you have a local DNS
 ## setup where the hostname is derived from DHCP requests (as with dnsmasq),
