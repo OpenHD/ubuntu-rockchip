@@ -124,6 +124,7 @@ for type in server desktop; do
     } > ${chroot_dir}/etc/udev/rules.d/90-naming-audios.rules
     elif [ "${BOARD}" == rock5b ]; then
     {
+        echo "disabled audio"
         # echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"'
         # echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi1-sound", ENV{SOUND_DESCRIPTION}="HDMI1 Audio"'
         # echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmiin-sound", ENV{SOUND_DESCRIPTION}="HDMI-In Audio"'
