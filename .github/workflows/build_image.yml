@@ -26,10 +26,14 @@ jobs:
         sudo apt install -y python-is-python3 fdisk bc
     - name: build
       run: sudo ./build.sh --board=rock5b
+    - name: resize
+      run: |
+        rm -Rf images/*desktop*
+        cp images/* ../
     - name: Pack image for Rock5B
       uses: 'actions/upload-artifact@v2'
       with:
         name: "Rock5B"
         path: |
-          images/*.img.xz
+          *.img.xz
           if-no-files-found: error
