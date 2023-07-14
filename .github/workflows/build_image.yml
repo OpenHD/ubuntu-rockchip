@@ -26,10 +26,10 @@ jobs:
         sudo apt install -y python-is-python3 fdisk bc
     - name: build
       run: sudo ./build.sh --board=rock5b
-    - name: Pack image for ${{ matrix.TARGET }}
+    - name: Pack image for Rock5B
       uses: 'actions/upload-artifact@v2'
       with:
-        name: "${{ matrix.TARGET }}"
+        name: "Rock5B"
         path: |
           images/*.img.xz
           if-no-files-found: error
