@@ -9,7 +9,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 cd "$(dirname -- "$(readlink -f -- "$0")")" && cd ..
-#mkdir -p build && cd build
+mkdir -p build && cd build
 
 # if [ ! -d linux-rockchip ]; then
 #     git clone --single-branch --progress -b linux-5.10-gen-rkr4 https://github.com/OpenHD/linux-rockchip.git linux-rockchip
