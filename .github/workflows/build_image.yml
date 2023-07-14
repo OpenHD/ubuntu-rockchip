@@ -31,5 +31,5 @@ jobs:
       with:
         name: "${{ matrix.TARGET }}"
         path: |
-          *.img.xz
+          images/*.img.xz
           if-no-files-found: error
