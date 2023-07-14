@@ -1,4 +1,4 @@
-name: Test Workflow for building a custom ubuntu image
+name: Rock5B ubuntu compiler
 
 on:
   push:
