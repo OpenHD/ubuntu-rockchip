@@ -49,7 +49,7 @@ export DEBIAN_FRONTEND=noninteractive
 chroot_dir=rootfs
 overlay_dir=../overlay
 
-for type in server desktop; do
+for type in server; do
 
     # Clean chroot dir and make sure folder is not mounted
     umount -lf ${chroot_dir}/dev/pts 2> /dev/null || true
