@@ -26,14 +26,11 @@ jobs:
         sudo apt install -y python-is-python3 fdisk bc
     - name: build
       run: sudo ./build.sh --board=rock5a
-    - name: resize
-      run: |
-        sudo rm -Rf images/*desktop*
-        cp images/* ../
+
     - name: Pack image for Rock5A
       uses: 'actions/upload-artifact@v2'
       with:
         name: "Rock5A"
         path: |
-          *.img.xz
+          *.img
           if-no-files-found: error
