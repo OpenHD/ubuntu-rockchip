@@ -28,7 +28,7 @@ jobs:
       run: sudo ./build.sh --board=rock5a
     - name: resize
       run: |
-        rm -Rf images/*desktop*
+        sudo rm -Rf images/*desktop*
         cp images/* ../
     - name: Pack image for Rock5A
       uses: 'actions/upload-artifact@v2'
