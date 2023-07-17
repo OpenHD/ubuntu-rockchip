@@ -119,7 +119,7 @@ mkdir -p ${mount_point}
 dd if=/dev/zero of="${disk}" count=4096 bs=512
 parted --script "${disk}" \
 mklabel gpt \
-mkpart primary fat32 14MiB 528MiB \
+mkpart primary fat32 1MiB 528MiB \
 mkpart primary ext4 528MiB 100%
 
 set +e
