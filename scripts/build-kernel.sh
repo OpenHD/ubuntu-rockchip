@@ -22,8 +22,8 @@ mkdir -p build && cd build
 
 #fake it till you make it
 
-wget https://dl.cloudsmith.io/public/openhd/openhd-2-3-evo/deb/ubuntu/pool/jammy/main/l/li/linux-headers-5.10.160-rockchip_5.10.160-8/linux-headers-5.10.160-rockchip_5.10.160-8_arm64.deb
-wget https://dl.cloudsmith.io/public/openhd/openhd-2-3-evo/deb/ubuntu/pool/jammy/main/l/li/linux-image-5.10.160-rockchip_5.10.160-8/linux-image-5.10.160-rockchip_5.10.160-8_arm64.deb
+wget https://github.com/OpenHD/RK_Kernel/releases/download/testing/linux-headers-5.10.160-rockchip_5.10.160-8_arm64.deb
+wget https://github.com/OpenHD/RK_Kernel/releases/download/testing/linux-image-5.10.160-rockchip_5.10.160-8_arm64.deb
 #doesn't make sense but he downloads them twice ?!
 rm -Rf *.deb.1
 rm -f ../*.buildinfo ../*.changes
