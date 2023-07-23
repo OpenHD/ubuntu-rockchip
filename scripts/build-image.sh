@@ -165,8 +165,11 @@ root_uuid=$(uuidgen)
 
 # Create filesystems on partitions
 mkfs.vfat -n OPENHD -I "${disk}${partition_char}1"
+echo -e "set 1 msftdata on\nquit\n" | parted "${disk}"
+
 dd if=/dev/zero of="${disk}${partition_char}2" bs=1KB count=10 > /dev/null
 mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}2"
+
 
 # Mount partitions
 mkdir -p ${mount_point}/{system-boot,writable} 
