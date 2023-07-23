@@ -119,7 +119,8 @@ mkdir -p ${mount_point}
 dd if=/dev/zero of="${disk}" count=4096 bs=512
 parted --script "${disk}" \
 mklabel gpt \
-mkpart primary fat32 1MiB 528MiB \
+mkpart primary fat32 1MiB 99MiB \
+mkpart primary fat32 100MiB 628MiB \
 mkpart primary ext4 528MiB 100%
 
 set +e
@@ -128,9 +129,12 @@ set +e
 fdisk "${disk}" << EOF
 t
 1
-BC13C2FF-59E6-4262-A352-B275FD6F7172
+266584be-d7b7-11eb-8c76-c3eef48c7257
 t
 2
+BC13C2FF-59E6-4262-A352-B275FD6F7172
+t
+3
 0FC63DAF-8483-4772-8E79-3D69D8477DE4
 w
 EOF
@@ -160,21 +164,21 @@ sleep 1
 # Generate random uuid for bootfs
 boot_uuid=$(uuidgen | head -c8)
 
+conf_uuid=$(uuidgen | head -c8)
+
 # Generate random uuid for rootfs
 root_uuid=$(uuidgen)
 
 # Create filesystems on partitions
-mkfs.vfat -n OPENHD -I "${disk}${partition_char}1"
-echo -e "set 1 msftdata on\nquit\n" | parted "${disk}"
-
-dd if=/dev/zero of="${disk}${partition_char}2" bs=1KB count=10 > /dev/null
-mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}2"
+mkfs.vfat -n boot -I "${disk}${partition_char}2"
+dd if=/dev/zero of="${disk}${partition_char}3" bs=1KB count=10 > /dev/null
+mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}3"
 
 
 # Mount partitions
 mkdir -p ${mount_point}/{system-boot,writable} 
-mount "${disk}${partition_char}1" ${mount_point}/system-boot
-mount "${disk}${partition_char}2" ${mount_point}/writable
+mount "${disk}${partition_char}2" ${mount_point}/system-boot
+mount "${disk}${partition_char}3" ${mount_point}/writable
 
 # Copy the rootfs to root partition
 tar -xpf "${rootfs}" -C ${mount_point}/writable
@@ -189,6 +193,7 @@ cat > ${mount_point}/writable/etc/fstab << EOF
 # <file system>     <mount point>  <type>  <options>   <dump>  <fsck>
 UUID=${boot_uuid} /boot/firmware fat32    defaults    0       2
 UUID=${root_uuid,,} /              ext4    defaults    0       1
+UUID=${conf_uuid,,} /              fat32    defaults    0       3
 /swapfile           none           swap    sw          0       0
 EOF
 
