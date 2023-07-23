@@ -164,7 +164,8 @@ boot_uuid=$(uuidgen | head -c8)
 root_uuid=$(uuidgen)
 
 # Create filesystems on partitions
-mkdosfs -i "${boot_uuid}" -F32 -n OPENHD --type msftdata "${disk}${partition_char}1"
+mkdosfs -i "${boot_uuid}" -F32 -n OPENHD "${disk}${partition_char}1"
+echo "t\n1\n0700\nw\ny\n" | gdisk "${disk}"
 dd if=/dev/zero of="${disk}${partition_char}2" bs=1KB count=10 > /dev/null
 mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}2"
 
