@@ -121,7 +121,7 @@ parted --script "${disk}" \
 mklabel gpt \
 mkpart primary fat32 1MiB 99MiB \
 mkpart primary fat32 100MiB 628MiB \
-mkpart primary ext4 528MiB 100%
+mkpart primary ext4 629MiB 100%
 
 set +e
 
