@@ -120,7 +120,8 @@ dd if=/dev/zero of="${disk}" count=4096 bs=512
 parted --script "${disk}" \
 mklabel gpt \
 mkpart primary fat16 16MiB 528MiB \
-mkpart primary ext4 528MiB 100%
+mkpart primary fat32 528MiB 628MiB \
+mkpart primary ext4 628MiB 100%
 
 set +e
 
@@ -131,6 +132,9 @@ t
 BC13C2FF-59E6-4262-A352-B275FD6F7172
 t
 2
+266584be-d7b7-11eb-8c76-c3eef48c7257
+t
+3
 0FC63DAF-8483-4772-8E79-3D69D8477DE4
 w
 EOF
@@ -165,13 +169,16 @@ root_uuid=$(uuidgen)
 
 # Create filesystems on partitions
 mkfs.vfat -i "${boot_uuid}" -F16 -n system-boot "${disk}${partition_char}1"
-dd if=/dev/zero of="${disk}${partition_char}2" bs=1KB count=10 > /dev/null
-mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}2"
+dd if=/dev/zero of="${disk}${partition_char}3" bs=1KB count=10 > /dev/null
+mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}3"
+mkfs.vfat -n config -I "${disk}${partition_char}2"
+echo -e "set 2 msftdata on\nquit\n" | parted "${disk}"
+
 
 # Mount partitions
 mkdir -p ${mount_point}/{system-boot,writable} 
 mount "${disk}${partition_char}1" ${mount_point}/system-boot
-mount "${disk}${partition_char}2" ${mount_point}/writable
+mount "${disk}${partition_char}3" ${mount_point}/writable
 
 # Copy the rootfs to root partition
 tar -xpf "${rootfs}" -C ${mount_point}/writable
@@ -275,7 +282,7 @@ sync
 
 # Umount partitions
 umount "${disk}${partition_char}1"
-umount "${disk}${partition_char}2"
+umount "${disk}${partition_char}3"
 
 # Remove loop device
 losetup -d "${loop}"
