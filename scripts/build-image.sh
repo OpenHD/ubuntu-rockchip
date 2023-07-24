@@ -176,7 +176,8 @@ mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}3"
 
 
 # Mount partitions
-mkdir -p ${mount_point}/{system-boot,writable} 
+mkdir -p ${mount_point}/{system-boot,writable}
+mkdir -p ${mount_point}/{config,writable} 
 mount "${disk}${partition_char}1" ${mount_point}/config
 mount "${disk}${partition_char}2" ${mount_point}/system-boot
 mount "${disk}${partition_char}3" ${mount_point}/writable
