@@ -170,15 +170,17 @@ conf_uuid=$(uuidgen | head -c8)
 root_uuid=$(uuidgen)
 
 # Create filesystems on partitions
+mkfs.vfat -n boot -I "${disk}${partition_char}1"
 mkfs.vfat -n boot -I "${disk}${partition_char}2"
 dd if=/dev/zero of="${disk}${partition_char}3" bs=1KB count=10 > /dev/null
 mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}3"
+echo -e "set 1 msftdata on\nquit\n" | parted "${disk}"
 
 
 # Mount partitions
 mkdir -p ${mount_point}/{system-boot,writable}
 mkdir -p ${mount_point}/{config,writable} 
-#mount "${disk}${partition_char}1" ${mount_point}/config
+mount "${disk}${partition_char}1" ${mount_point}/config
 mount "${disk}${partition_char}2" ${mount_point}/system-boot
 mount "${disk}${partition_char}3" ${mount_point}/writable
 
@@ -282,7 +284,7 @@ sync --file-system
 sync
 
 # Umount partitions
-#umount "${disk}${partition_char}1"
+umount "${disk}${partition_char}1"
 umount "${disk}${partition_char}2"
 umount "${disk}${partition_char}3"
 
