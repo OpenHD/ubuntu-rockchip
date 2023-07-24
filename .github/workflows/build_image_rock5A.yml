@@ -25,7 +25,7 @@ jobs:
         sudo apt install -y udev dosfstools uuid-runtime git-lfs device-tree-compiler python2 python3 
         sudo apt install -y python-is-python3 fdisk bc
     - name: build
-      run: sudo ./build.sh --board=rock5a
+      run: sudo ./build.sh -b rock5a
 
     - name: Pack image for Rock5A
       uses: 'actions/upload-artifact@v2'
